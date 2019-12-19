@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Exchange exposing (country, name, orders)
+module Api.Object.Country exposing (currency, name)
 
 import Api.InputObject
 import Api.Interface
@@ -19,16 +19,11 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-country : SelectionSet decodesTo Api.Object.Country -> SelectionSet decodesTo Api.Object.Exchange
-country object_ =
-    Object.selectionForCompositeField "country" [] object_ identity
+currency : SelectionSet decodesTo Api.Object.Currency -> SelectionSet decodesTo Api.Object.Country
+currency object_ =
+    Object.selectionForCompositeField "currency" [] object_ identity
 
 
-name : SelectionSet String Api.Object.Exchange
+name : SelectionSet String Api.Object.Country
 name =
     Object.selectionForField "String" "name" [] Decode.string
-
-
-orders : SelectionSet decodesTo Api.Object.Order -> SelectionSet (List decodesTo) Api.Object.Exchange
-orders object_ =
-    Object.selectionForCompositeField "orders" [] object_ (identity >> Decode.list)

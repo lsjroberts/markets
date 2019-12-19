@@ -19,11 +19,11 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-notional : SelectionSet (Maybe Int) Api.Object.PercentNotional
+notional : SelectionSet Int Api.Object.PercentNotional
 notional =
-    Object.selectionForField "(Maybe Int)" "notional" [] (Decode.int |> Decode.nullable)
+    Object.selectionForField "Int" "notional" [] Decode.int
 
 
-percent : SelectionSet (Maybe Float) Api.Object.PercentNotional
+percent : SelectionSet Float Api.Object.PercentNotional
 percent =
-    Object.selectionForField "(Maybe Float)" "percent" [] (Decode.float |> Decode.nullable)
+    Object.selectionForField "Float" "percent" [] Decode.float

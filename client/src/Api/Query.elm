@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Query exposing (ExchangeRequiredArguments, PlayerOptionalArguments, PlayersOptionalArguments, PositionsRequiredArguments, SecuritiesOptionalArguments, SecurityRequiredArguments, exchange, orders, player, players, positions, securities, security)
+module Api.Query exposing (ExchangeRequiredArguments, PlayerOptionalArguments, PlayersOptionalArguments, PositionsRequiredArguments, SecuritiesOptionalArguments, SecurityRequiredArguments, agents, exchange, exchanges, orders, player, players, positions, securities, security)
 
 import Api.InputObject
 import Api.Interface
@@ -19,6 +19,11 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode exposing (Decoder)
 
 
+agents : SelectionSet decodesTo Api.Object.Agent -> SelectionSet (List decodesTo) RootQuery
+agents object_ =
+    Object.selectionForCompositeField "agents" [] object_ (identity >> Decode.list)
+
+
 type alias ExchangeRequiredArguments =
     { exchange : Api.ScalarCodecs.Id }
 
@@ -26,6 +31,11 @@ type alias ExchangeRequiredArguments =
 exchange : ExchangeRequiredArguments -> SelectionSet decodesTo Api.Object.Exchange -> SelectionSet (Maybe decodesTo) RootQuery
 exchange requiredArgs object_ =
     Object.selectionForCompositeField "exchange" [ Argument.required "exchange" requiredArgs.exchange (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapEncoder .codecId) ] object_ (identity >> Decode.nullable)
+
+
+exchanges : SelectionSet decodesTo Api.Object.Exchange -> SelectionSet (List decodesTo) RootQuery
+exchanges object_ =
+    Object.selectionForCompositeField "exchanges" [] object_ (identity >> Decode.list)
 
 
 orders : SelectionSet decodesTo Api.Object.Order -> SelectionSet (List decodesTo) RootQuery

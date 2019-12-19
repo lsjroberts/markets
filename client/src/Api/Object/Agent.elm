@@ -2,8 +2,9 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Exchange exposing (country, name, orders)
+module Api.Object.Agent exposing (book, strategy)
 
+import Api.Enum.AgentStrategy
 import Api.InputObject
 import Api.Interface
 import Api.Object
@@ -19,16 +20,11 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-country : SelectionSet decodesTo Api.Object.Country -> SelectionSet decodesTo Api.Object.Exchange
-country object_ =
-    Object.selectionForCompositeField "country" [] object_ identity
+book : SelectionSet decodesTo Api.Object.Book -> SelectionSet decodesTo Api.Object.Agent
+book object_ =
+    Object.selectionForCompositeField "book" [] object_ identity
 
 
-name : SelectionSet String Api.Object.Exchange
-name =
-    Object.selectionForField "String" "name" [] Decode.string
-
-
-orders : SelectionSet decodesTo Api.Object.Order -> SelectionSet (List decodesTo) Api.Object.Exchange
-orders object_ =
-    Object.selectionForCompositeField "orders" [] object_ (identity >> Decode.list)
+strategy : SelectionSet Api.Enum.AgentStrategy.AgentStrategy Api.Object.Agent
+strategy =
+    Object.selectionForField "Enum.AgentStrategy.AgentStrategy" "strategy" [] Api.Enum.AgentStrategy.decoder
