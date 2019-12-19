@@ -1,6 +1,8 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
+import Api.Enum.Side as Side
 import Api.Object.Exchange as Exchange
+import Api.Object.Order as Order
 import Api.Query as Query
 import Browser
 import Browser.Navigation as Nav
@@ -43,13 +45,22 @@ type alias Model =
     }
 
 
-type alias Exchange =
-    { name : String }
-
-
 type Page
     = NotFound
     | HomePage
+
+
+type alias Exchange =
+    { name : String
+    , orders : Maybe (List Order)
+    }
+
+
+type alias Order =
+    { fulfilled : Int
+    , shares : Int
+    , side : Side.Side
+    }
 
 
 query : SelectionSet decodeTo RootQuery -> (RemoteData (Graphql.Http.RawError () Http.Error) decodeTo -> Msg) -> Cmd Msg
@@ -73,6 +84,14 @@ queryExchanges =
 exchangeSelection =
     SelectionSet.succeed Exchange
         |> with Exchange.name
+        |> with (Exchange.orders orderSelection)
+
+
+orderSelection =
+    SelectionSet.succeed Order
+        |> with Order.fulfilled
+        |> with Order.shares
+        |> with Order.side
 
 
 type alias Request a =
@@ -124,9 +143,51 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "Markets"
     , body =
-        [ layout [] <| el [] (text "Hello")
+        [ layout [] <|
+            viewResponse
+                (\exchanges -> List.map viewExchange exchanges |> column [ spacing 36 ])
+                model.exchanges
         ]
     }
+
+
+viewExchange : Exchange -> Element Msg
+viewExchange { name, orders } =
+    column [ spacing 24 ]
+        [ el [] (text name)
+        , case orders of
+            Just os ->
+                column [ spacing 16 ]
+                    (List.map
+                        (\o ->
+                            row [ spacing 8 ]
+                                [ text (Side.toString o.side)
+                                , text (String.fromInt o.shares)
+                                , text (String.fromInt o.fulfilled)
+                                ]
+                        )
+                        os
+                    )
+
+            Nothing ->
+                none
+        ]
+
+
+viewResponse : (a -> Element Msg) -> Request a -> Element Msg
+viewResponse success response =
+    case response of
+        RemoteData.Loading ->
+            text "loading"
+
+        RemoteData.Success result ->
+            success result
+
+        RemoteData.Failure _ ->
+            text "error"
+
+        RemoteData.NotAsked ->
+            none
 
 
 

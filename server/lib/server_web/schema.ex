@@ -2,6 +2,7 @@ defmodule ServerWeb.Schema do
   use Absinthe.Schema
 
   alias ServerWeb.ExchangesResolver
+  alias ServerWeb.OrdersResolver
 
   object :player do
     field(:id, non_null(:id))
@@ -49,8 +50,11 @@ defmodule ServerWeb.Schema do
 
   object :exchange do
     field(:name, non_null(:string))
-    field(:orders, non_null(list_of(non_null(:order))))
     field(:country, non_null(:country))
+
+    field :orders, list_of(non_null(:order)) do
+      resolve(&OrdersResolver.list_orders/3)
+    end
   end
 
   object :country do

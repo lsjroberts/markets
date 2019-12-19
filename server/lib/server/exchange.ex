@@ -3,6 +3,8 @@ defmodule Server.Exchange do
   import Ecto.Changeset
 
   schema "exchanges" do
+    has_many(:orders, Server.Order)
+
     field(:name, :string)
 
     timestamps()

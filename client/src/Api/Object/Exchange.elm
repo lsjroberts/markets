@@ -29,6 +29,6 @@ name =
     Object.selectionForField "String" "name" [] Decode.string
 
 
-orders : SelectionSet decodesTo Api.Object.Order -> SelectionSet (List decodesTo) Api.Object.Exchange
+orders : SelectionSet decodesTo Api.Object.Order -> SelectionSet (Maybe (List decodesTo)) Api.Object.Exchange
 orders object_ =
-    Object.selectionForCompositeField "orders" [] object_ (identity >> Decode.list)
+    Object.selectionForCompositeField "orders" [] object_ (identity >> Decode.list >> Decode.nullable)
