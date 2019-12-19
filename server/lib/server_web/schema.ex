@@ -1,6 +1,8 @@
 defmodule ServerWeb.Schema do
   use Absinthe.Schema
 
+  alias ServerWeb.ExchangesResolver
+
   object :player do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
@@ -64,8 +66,8 @@ defmodule ServerWeb.Schema do
   end
 
   object :percent_notional do
-    field(:percent, :float)
-    field(:notional, :integer)
+    field(:percent, non_null(:float))
+    field(:notional, non_null(:integer))
   end
 
   enum :side do
@@ -89,6 +91,10 @@ defmodule ServerWeb.Schema do
   end
 
   query do
+    field(:exchanges, non_null(list_of(non_null(:exchange)))) do
+      resolve(&ExchangesResolver.list_exchanges/3)
+    end
+
     field(:exchange, :exchange) do
       arg(:exchange, non_null(:id))
 
