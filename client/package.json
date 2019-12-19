@@ -1,0 +1,19 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "api": "elm-graphql http://localhost:4000/graphiql"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@dillonkearns/elm-graphql": "^3.6.0",
+    "fs-extra": "^8.0.1"
+  }
+}
