@@ -3,7 +3,7 @@ defmodule Server.Repo.Migrations.CreateExchanges do
 
   def change do
     create table(:exchanges) do
-      add(:name, :string)
+      add(:name, :string, null: false)
 
       timestamps()
     end

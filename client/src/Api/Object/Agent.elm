@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Agent exposing (book, strategy)
+module Api.Object.Agent exposing (book, name, strategy)
 
 import Api.Enum.AgentStrategy
 import Api.InputObject
@@ -23,6 +23,11 @@ import Json.Decode as Decode
 book : SelectionSet decodesTo Api.Object.Book -> SelectionSet decodesTo Api.Object.Agent
 book object_ =
     Object.selectionForCompositeField "book" [] object_ identity
+
+
+name : SelectionSet String Api.Object.Agent
+name =
+    Object.selectionForField "String" "name" [] Decode.string
 
 
 strategy : SelectionSet Api.Enum.AgentStrategy.AgentStrategy Api.Object.Agent

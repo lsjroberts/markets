@@ -9,12 +9,11 @@ import Json.Decode as Decode exposing (Decoder)
 
 type AgentStrategy
     = LiquidityProvider
-    | Wealth
 
 
 list : List AgentStrategy
 list =
-    [ LiquidityProvider, Wealth ]
+    [ LiquidityProvider ]
 
 
 decoder : Decoder AgentStrategy
@@ -25,9 +24,6 @@ decoder =
                 case string of
                     "LIQUIDITY_PROVIDER" ->
                         Decode.succeed LiquidityProvider
-
-                    "WEALTH" ->
-                        Decode.succeed Wealth
 
                     _ ->
                         Decode.fail ("Invalid AgentStrategy type, " ++ string ++ " try re-running the @dillonkearns/elm-graphql CLI ")
@@ -41,9 +37,6 @@ toString enum =
     case enum of
         LiquidityProvider ->
             "LIQUIDITY_PROVIDER"
-
-        Wealth ->
-            "WEALTH"
 
 
 {-| Convert from a String representation to an elm representation enum.
@@ -62,9 +55,6 @@ fromString enumString =
     case enumString of
         "LIQUIDITY_PROVIDER" ->
             Just LiquidityProvider
-
-        "WEALTH" ->
-            Just Wealth
 
         _ ->
             Nothing

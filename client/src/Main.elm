@@ -1,6 +1,8 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
+import Api.Enum.AgentStrategy as AgentStrategy
 import Api.Enum.Side as Side
+import Api.Object.Agent as Agent
 import Api.Object.Exchange as Exchange
 import Api.Object.Order as Order
 import Api.Query as Query
@@ -42,6 +44,7 @@ type alias Model =
     { key : Nav.Key
     , page : Page
     , exchanges : Request (List Exchange)
+    , agents : Request (List Agent)
     }
 
 
@@ -53,6 +56,12 @@ type Page
 type alias Exchange =
     { name : String
     , orders : Maybe (List Order)
+    }
+
+
+type alias Agent =
+    { name : String
+    , strategy : AgentStrategy.AgentStrategy
     }
 
 
@@ -81,6 +90,18 @@ queryExchanges =
         exchangeSelection
 
 
+queryAgents : SelectionSet (List Agent) RootQuery
+queryAgents =
+    Query.agents
+        agentSelection
+
+
+agentSelection =
+    SelectionSet.succeed Agent
+        |> with Agent.name
+        |> with Agent.strategy
+
+
 exchangeSelection =
     SelectionSet.succeed Exchange
         |> with Exchange.name
@@ -104,6 +125,7 @@ init url key =
         { key = key
         , page = HomePage
         , exchanges = RemoteData.NotAsked
+        , agents = RemoteData.NotAsked
         }
 
 
@@ -115,6 +137,7 @@ type Msg
     = LinkClicked Browser.UrlRequest
     | UrlChanged Url.Url
     | GotExchanges (Request (List Exchange))
+    | GotAgents (Request (List Agent))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -122,6 +145,9 @@ update msg model =
     case msg of
         GotExchanges exchanges ->
             ( { model | exchanges = exchanges }, Cmd.none )
+
+        GotAgents agents ->
+            ( { model | agents = agents }, Cmd.none )
 
         LinkClicked urlRequest ->
             case urlRequest of
@@ -144,11 +170,24 @@ view model =
     { title = "Markets"
     , body =
         [ layout [] <|
-            viewResponse
-                (\exchanges -> List.map viewExchange exchanges |> column [ spacing 36 ])
-                model.exchanges
+            column [ spacing 48 ]
+                [ viewResponse
+                    (\exchanges -> List.map viewExchange exchanges |> column [ spacing 36 ])
+                    model.exchanges
+                , viewResponse
+                    (\agents -> List.map viewAgent agents |> column [ spacing 36 ])
+                    model.agents
+                ]
         ]
     }
+
+
+viewAgent : Agent -> Element Msg
+viewAgent { name, strategy } =
+    row [ spacing 24 ]
+        [ el [] (text name)
+        , el [] (text (AgentStrategy.toString strategy))
+        ]
 
 
 viewExchange : Exchange -> Element Msg
@@ -219,5 +258,5 @@ route parser handler =
 
 routeHome model =
     ( { model | page = HomePage }
-    , query queryExchanges GotExchanges
+    , Cmd.batch [ query queryExchanges GotExchanges, query queryAgents GotAgents ]
     )

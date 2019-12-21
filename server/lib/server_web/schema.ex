@@ -1,6 +1,7 @@
 defmodule ServerWeb.Schema do
   use Absinthe.Schema
 
+  alias ServerWeb.AgentsResolver
   alias ServerWeb.ExchangesResolver
   alias ServerWeb.OrdersResolver
 
@@ -85,13 +86,13 @@ defmodule ServerWeb.Schema do
   end
 
   object :agent do
+    field(:name, non_null(:string))
     field(:book, non_null(:book))
     field(:strategy, non_null(:agent_strategy))
   end
 
   enum :agent_strategy do
     value(:liquidity_provider)
-    value(:wealth)
   end
 
   query do
@@ -154,9 +155,7 @@ defmodule ServerWeb.Schema do
     end
 
     field(:agents, non_null(list_of(non_null(:agent)))) do
-      resolve(fn _, _ ->
-        {:ok, []}
-      end)
+      resolve(&AgentsResolver.list_agents/3)
     end
   end
 end
