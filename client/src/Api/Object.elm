@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object exposing (Agent(..), Book(..), Country(..), Currency(..), Exchange(..), Factor(..), Order(..), PercentNotional(..), Player(..), Position(..), Security(..))
+module Api.Object exposing (..)
 
 
 type Agent
@@ -25,8 +25,12 @@ type Exchange
     = Exchange
 
 
-type Factor
-    = Factor
+type FactorLoading
+    = FactorLoading
+
+
+type FactorPercent
+    = FactorPercent
 
 
 type Order

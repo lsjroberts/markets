@@ -2,8 +2,9 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Book exposing (factors, id, orders, positions, securities)
+module Api.Object.Book exposing (..)
 
+import Api.Enum.Factor
 import Api.InputObject
 import Api.Interface
 import Api.Object
@@ -19,9 +20,9 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-factors : SelectionSet decodesTo Api.Object.Factor -> SelectionSet (List decodesTo) Api.Object.Book
-factors object_ =
-    Object.selectionForCompositeField "factors" [] object_ (identity >> Decode.list)
+factors : SelectionSet (List Api.Enum.Factor.Factor) Api.Object.Book
+factors =
+    Object.selectionForField "(List Enum.Factor.Factor)" "factors" [] (Api.Enum.Factor.decoder |> Decode.list)
 
 
 id : SelectionSet Api.ScalarCodecs.Id Api.Object.Book

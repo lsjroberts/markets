@@ -2,18 +2,20 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Enum.AgentStrategy exposing (AgentStrategy(..), decoder, fromString, list, toString)
+module Api.Enum.AgentStrategy exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 
 
 type AgentStrategy
-    = LiquidityProvider
+    = Ipo
+    | LiquidityProvider
+    | TargetExposure
 
 
 list : List AgentStrategy
 list =
-    [ LiquidityProvider ]
+    [ Ipo, LiquidityProvider, TargetExposure ]
 
 
 decoder : Decoder AgentStrategy
@@ -22,8 +24,14 @@ decoder =
         |> Decode.andThen
             (\string ->
                 case string of
+                    "IPO" ->
+                        Decode.succeed Ipo
+
                     "LIQUIDITY_PROVIDER" ->
                         Decode.succeed LiquidityProvider
+
+                    "TARGET_EXPOSURE" ->
+                        Decode.succeed TargetExposure
 
                     _ ->
                         Decode.fail ("Invalid AgentStrategy type, " ++ string ++ " try re-running the @dillonkearns/elm-graphql CLI ")
@@ -35,8 +43,14 @@ decoder =
 toString : AgentStrategy -> String
 toString enum =
     case enum of
+        Ipo ->
+            "IPO"
+
         LiquidityProvider ->
             "LIQUIDITY_PROVIDER"
+
+        TargetExposure ->
+            "TARGET_EXPOSURE"
 
 
 {-| Convert from a String representation to an elm representation enum.
@@ -53,8 +67,14 @@ This can be useful for generating Strings to use for <select> menus to check whi
 fromString : String -> Maybe AgentStrategy
 fromString enumString =
     case enumString of
+        "IPO" ->
+            Just Ipo
+
         "LIQUIDITY_PROVIDER" ->
             Just LiquidityProvider
+
+        "TARGET_EXPOSURE" ->
+            Just TargetExposure
 
         _ ->
             Nothing

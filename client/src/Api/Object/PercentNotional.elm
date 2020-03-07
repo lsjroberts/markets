@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.PercentNotional exposing (notional, percent)
+module Api.Object.PercentNotional exposing (..)
 
 import Api.InputObject
 import Api.Interface

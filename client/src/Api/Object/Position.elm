@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Position exposing (book, current, factors, security, target)
+module Api.Object.Position exposing (..)
 
 import Api.InputObject
 import Api.Interface
@@ -27,11 +27,6 @@ book object_ =
 current : SelectionSet decodesTo Api.Object.PercentNotional -> SelectionSet decodesTo Api.Object.Position
 current object_ =
     Object.selectionForCompositeField "current" [] object_ identity
-
-
-factors : SelectionSet decodesTo Api.Object.Factor -> SelectionSet (List decodesTo) Api.Object.Position
-factors object_ =
-    Object.selectionForCompositeField "factors" [] object_ (identity >> Decode.list)
 
 
 security : SelectionSet decodesTo Api.Object.Security -> SelectionSet decodesTo Api.Object.Position

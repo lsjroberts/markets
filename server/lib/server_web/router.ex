@@ -6,19 +6,15 @@ defmodule ServerWeb.Router do
     plug(CORSPlug)
   end
 
-  scope "/api" do
+  scope "/" do
     pipe_through(:api)
 
-    forward("/", Absinthe.Plug,
+    forward("/api", Absinthe.Plug,
       schema: ServerWeb.Schema,
       analyze_complexity: true,
       max_complexity: 1000,
       json_codec: Jason
     )
-  end
-
-  scope "/" do
-    pipe_through(:api)
 
     forward("/graphiql", Absinthe.Plug.GraphiQL,
       schema: ServerWeb.Schema,

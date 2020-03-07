@@ -2,8 +2,9 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Player exposing (..)
+module Api.Object.FactorLoading exposing (..)
 
+import Api.Enum.Factor
 import Api.InputObject
 import Api.Interface
 import Api.Object
@@ -19,16 +20,11 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-books : SelectionSet decodesTo Api.Object.Book -> SelectionSet (List decodesTo) Api.Object.Player
-books object_ =
-    Object.selectionForCompositeField "books" [] object_ (identity >> Decode.list)
+factor : SelectionSet Api.Enum.Factor.Factor Api.Object.FactorLoading
+factor =
+    Object.selectionForField "Enum.Factor.Factor" "factor" [] Api.Enum.Factor.decoder
 
 
-id : SelectionSet Api.ScalarCodecs.Id Api.Object.Player
-id =
-    Object.selectionForField "ScalarCodecs.Id" "id" [] (Api.ScalarCodecs.codecs |> Api.Scalar.unwrapCodecs |> .codecId |> .decoder)
-
-
-name : SelectionSet String Api.Object.Player
-name =
-    Object.selectionForField "String" "name" [] Decode.string
+loading : SelectionSet Float Api.Object.FactorLoading
+loading =
+    Object.selectionForField "Float" "loading" [] Decode.float

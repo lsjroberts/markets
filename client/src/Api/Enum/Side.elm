@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Enum.Side exposing (Side(..), decoder, fromString, list, toString)
+module Api.Enum.Side exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

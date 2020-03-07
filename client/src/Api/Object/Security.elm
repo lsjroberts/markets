@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Security exposing (exchange, factors, name, ticker)
+module Api.Object.Security exposing (..)
 
 import Api.InputObject
 import Api.Interface
@@ -24,7 +24,7 @@ exchange object_ =
     Object.selectionForCompositeField "exchange" [] object_ identity
 
 
-factors : SelectionSet decodesTo Api.Object.Factor -> SelectionSet (List decodesTo) Api.Object.Security
+factors : SelectionSet decodesTo Api.Object.FactorLoading -> SelectionSet (List decodesTo) Api.Object.Security
 factors object_ =
     Object.selectionForCompositeField "factors" [] object_ (identity >> Decode.list)
 

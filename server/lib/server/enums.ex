@@ -9,7 +9,7 @@ defmodule SideEnum do
 end
 
 defmodule StrategyEnum do
-  use EctoEnum.Postgres, type: :strategy, enums: [:liquidity_provider]
+  use EctoEnum.Postgres, type: :strategy, enums: [:ipo, :liquidity_provider, :target_exposure]
 end
 
 # defenum(SideEnum, :side, [:buy, :sell])

@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Currency exposing (location, name, symbol, ticker)
+module Api.Object.Currency exposing (..)
 
 import Api.Enum.CurrencyLocation
 import Api.InputObject

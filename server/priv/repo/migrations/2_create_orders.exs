@@ -4,7 +4,7 @@ defmodule Server.Repo.Migrations.CreateOrders do
 
   def change do
     create table(:orders) do
-      add(:exchange_id, references(:exchanges, on_delete: :delete_all), primary_key: true)
+      add(:exchange_id, references(:exchanges, on_delete: :delete_all))
 
       add(:shares, :integer, null: false)
       add(:fulfilled, :integer, null: false)

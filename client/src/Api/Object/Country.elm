@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Country exposing (currency, name)
+module Api.Object.Country exposing (..)
 
 import Api.InputObject
 import Api.Interface

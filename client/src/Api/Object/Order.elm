@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Order exposing (book, fulfilled, position, remaining, security, shares, side)
+module Api.Object.Order exposing (..)
 
 import Api.Enum.Side
 import Api.InputObject

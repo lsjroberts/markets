@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.ScalarCodecs exposing (Id, codecs)
+module Api.ScalarCodecs exposing (..)
 
 import Api.Scalar exposing (defaultCodecs)
 import Json.Decode as Decode exposing (Decoder)

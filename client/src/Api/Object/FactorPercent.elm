@@ -2,8 +2,9 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Object.Factor exposing (exposure, name)
+module Api.Object.FactorPercent exposing (..)
 
+import Api.Enum.Factor
 import Api.InputObject
 import Api.Interface
 import Api.Object
@@ -19,11 +20,11 @@ import Graphql.SelectionSet exposing (SelectionSet)
 import Json.Decode as Decode
 
 
-exposure : SelectionSet Float Api.Object.Factor
-exposure =
-    Object.selectionForField "Float" "exposure" [] Decode.float
+factor : SelectionSet Api.Enum.Factor.Factor Api.Object.FactorPercent
+factor =
+    Object.selectionForField "Enum.Factor.Factor" "factor" [] Api.Enum.Factor.decoder
 
 
-name : SelectionSet String Api.Object.Factor
-name =
-    Object.selectionForField "String" "name" [] Decode.string
+percent : SelectionSet Float Api.Object.FactorPercent
+percent =
+    Object.selectionForField "Float" "percent" [] Decode.float

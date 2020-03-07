@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Enum.CurrencyLocation exposing (CurrencyLocation(..), decoder, fromString, list, toString)
+module Api.Enum.CurrencyLocation exposing (..)
 
 import Json.Decode as Decode exposing (Decoder)
 

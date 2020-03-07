@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.InputObject exposing (placeholder)
+module Api.InputObject exposing (..)
 
 
 placeholder : String

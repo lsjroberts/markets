@@ -32,7 +32,6 @@ defmodule ServerWeb.Schema do
   object :position do
     field(:book, non_null(:book))
     field(:security, non_null(:security))
-    field(:factors, non_null(list_of(non_null(:factor))))
     field(:current, non_null(:percent_notional))
     field(:target, non_null(:percent_notional))
   end
@@ -41,12 +40,24 @@ defmodule ServerWeb.Schema do
     field(:ticker, non_null(:string))
     field(:name, non_null(:string))
     field(:exchange, non_null(:exchange))
-    field(:factors, non_null(list_of(non_null(:factor))))
+    field(:factors, non_null(list_of(non_null(:factor_loading))))
   end
 
-  object :factor do
-    field(:name, non_null(:string))
-    field(:exposure, non_null(:float))
+  enum :factor do
+    value(:country)
+    value(:industry)
+    value(:momentum)
+    value(:volatility)
+  end
+
+  object :factor_loading do
+    field(:factor, non_null(:factor))
+    field(:loading, non_null(:float))
+  end
+
+  object :factor_percent do
+    field(:factor, non_null(:factor))
+    field(:percent, non_null(:float))
   end
 
   object :exchange do
@@ -89,10 +100,15 @@ defmodule ServerWeb.Schema do
     field(:name, non_null(:string))
     field(:book, non_null(:book))
     field(:strategy, non_null(:agent_strategy))
+    field(:idio, non_null(:float))
+    field(:factor, non_null(:float))
+    field(:factors, non_null(list_of(non_null(:factor_percent))))
   end
 
   enum :agent_strategy do
+    value(:ipo)
     value(:liquidity_provider)
+    value(:target_exposure)
   end
 
   query do

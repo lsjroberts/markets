@@ -2,7 +2,7 @@
 -- https://github.com/dillonkearns/elm-graphql
 
 
-module Api.Query exposing (ExchangeRequiredArguments, PlayerOptionalArguments, PlayersOptionalArguments, PositionsRequiredArguments, SecuritiesOptionalArguments, SecurityRequiredArguments, agents, exchange, exchanges, orders, player, players, positions, securities, security)
+module Api.Query exposing (..)
 
 import Api.InputObject
 import Api.Interface
